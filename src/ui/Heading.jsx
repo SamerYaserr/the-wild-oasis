@@ -22,7 +22,7 @@ const Heading = styled.h1`
       font-weight: 500;
     `}
 
-    background-color: var(--color-grey-100);
+    line-height: 1.4;
 `;
 
 export default Heading;
