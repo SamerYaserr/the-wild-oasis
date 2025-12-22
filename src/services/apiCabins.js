@@ -11,19 +11,31 @@ export async function getCabins() {
   return cabins;
 }
 
-export async function createCabin(newCabin) {
-  const imageName = `${Date.now()}-${newCabin.image.name}`.replaceAll("/", "");
-  const imagePath = `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`;
+export async function createEditCabin(newCabin, id = null) {
+  console.log("createEditCabin called with:", { newCabin, id });
+  const hasImagePath = newCabin.image?.startsWith?.(supabaseUrl);
 
-  // Create a new cabin
-  const { data, error } = await supabase
-    .from("cabins")
-    .insert([{ ...newCabin, image: imagePath }]);
+  const imageName = `${Date.now()}-${newCabin.image.name}`.replaceAll("/", "");
+  const imagePath = hasImagePath
+    ? newCabin.image
+    : `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`;
+
+  // Create/Edit a new cabin
+  let query = supabase.from("cabins");
+
+  // If id is provided, we are editing an existing cabin
+  if (id) query = query.update({ ...newCabin, image: imagePath }).eq("id", id);
+  else query = query.insert([{ ...newCabin, image: imagePath }]);
+
+  const { data, error } = await query.select().single();
 
   if (error) {
     console.error(error);
-    throw new Error("Cabin could not be created");
+    throw new Error("Cabin could not be created/edited");
   }
+
+  // If the image is already uploaded, skip the upload step
+  if (hasImagePath) return data;
 
   // Upload the image
   const { error: storageError } = await supabase.storage
