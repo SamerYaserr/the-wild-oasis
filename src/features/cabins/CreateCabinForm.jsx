@@ -133,7 +133,6 @@ function CreateCabinForm({ cabinToEdit = {} }) {
 
       <FormRow label="Cabin photo" error={errors.image?.message}>
         <FileInput
-          disabled={isWorking}
           id="image"
           accept="image/*"
           {...register("image", {
