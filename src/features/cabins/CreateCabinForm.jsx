@@ -32,12 +32,7 @@ function CreateCabinForm({ cabinToUpdate = {} }) {
     const image = typeof data.image === "string" ? data.image : data.image[0];
 
     if (isUpdateSession)
-      updateCabin(
-        { newCabin: { ...data, image }, id: cabinId },
-        {
-          onSuccess: () => reset(),
-        }
-      );
+      updateCabin({ newCabin: { ...data, image }, id: cabinId });
     else
       createCabin(
         { ...data, image },
