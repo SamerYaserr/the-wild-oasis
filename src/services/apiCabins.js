@@ -11,8 +11,7 @@ export async function getCabins() {
   return cabins;
 }
 
-export async function createEditCabin(newCabin, id = null) {
-  console.log("createEditCabin called with:", { newCabin, id });
+export async function createUpdateCabin(newCabin, id = null) {
   const hasImagePath = newCabin.image?.startsWith?.(supabaseUrl);
 
   const imageName = `${Date.now()}-${newCabin.image.name}`.replaceAll("/", "");
@@ -20,10 +19,10 @@ export async function createEditCabin(newCabin, id = null) {
     ? newCabin.image
     : `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`;
 
-  // Create/Edit a new cabin
+  // Create/update a new cabin
   let query = supabase.from("cabins");
 
-  // If id is provided, we are editing an existing cabin
+  // If id is provided, we are updating an existing cabin
   if (id) query = query.update({ ...newCabin, image: imagePath }).eq("id", id);
   else query = query.insert([{ ...newCabin, image: imagePath }]);
 
@@ -31,7 +30,7 @@ export async function createEditCabin(newCabin, id = null) {
 
   if (error) {
     console.error(error);
-    throw new Error("Cabin could not be created/edited");
+    throw new Error("Cabin could not be created/updated");
   }
 
   // If the image is already uploaded, skip the upload step
