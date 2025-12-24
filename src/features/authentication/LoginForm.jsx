@@ -21,7 +21,15 @@ function LoginForm() {
       toast.error("Please fill in all fields");
     }
 
-    login({ email, password });
+    login(
+      { email, password },
+      {
+        onSettled: () => {
+          setPassword("");
+          setEmail("");
+        },
+      }
+    );
   }
 
   return (
