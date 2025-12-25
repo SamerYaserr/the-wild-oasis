@@ -4,6 +4,9 @@ import Button from "../../ui/Button";
 import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
+import Spinner from "../../ui/Spinner";
+
+import { useSignup } from "./useSignup";
 
 function SignupForm() {
   const {
@@ -11,10 +14,19 @@ function SignupForm() {
     formState: { errors },
     getValues,
     handleSubmit,
+    reset,
   } = useForm();
+  const { signup, isPending } = useSignup();
 
-  const onSubmit = (data) => {
-    console.log("Form submitted:", data);
+  if (isPending) return <Spinner />;
+
+  const onSubmit = ({ fullName, email, password }) => {
+    signup(
+      { fullName, email, password },
+      {
+        onSettled: reset,
+      }
+    );
   };
 
   return (
@@ -23,6 +35,7 @@ function SignupForm() {
         <Input
           type="text"
           id="fullName"
+          disabled={isPending}
           {...register("fullName", {
             required: "Full name is required",
           })}
@@ -33,6 +46,7 @@ function SignupForm() {
         <Input
           type="email"
           id="email"
+          disabled={isPending}
           {...register("email", {
             required: "Email address is required",
             pattern: {
@@ -50,6 +64,7 @@ function SignupForm() {
         <Input
           type="password"
           id="password"
+          disabled={isPending}
           {...register("password", {
             required: "Password is required",
             minLength: {
@@ -64,6 +79,7 @@ function SignupForm() {
         <Input
           type="password"
           id="passwordConfirm"
+          disabled={isPending}
           {...register("passwordConfirm", {
             required: "Please confirm your password",
             validate: (value) => {
@@ -76,10 +92,10 @@ function SignupForm() {
 
       <FormRow>
         {/* type is an HTML attribute! */}
-        <Button variation="secondary" type="reset">
+        <Button variation="secondary" type="reset" disabled={isPending}>
           Cancel
         </Button>
-        <Button>Create new user</Button>
+        <Button disabled={isPending}>Create new user</Button>
       </FormRow>
     </Form>
   );
