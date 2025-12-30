@@ -5,7 +5,7 @@ import { useLocalStorageState } from "../hooks/useLocalStorageState";
 
 const DarkModeContext = createContext();
 
-export default function DarkMoodProvider({ children }) {
+export default function DarkModeProvider({ children }) {
   const [isDark, setIsDark] = useLocalStorageState(false);
 
   const toggleDark = () => {

@@ -1,7 +1,7 @@
 import { IoMoonOutline, IoSunnyOutline } from "react-icons/io5";
 
 import ButtonIcon from "./ButtonIcon";
-import { useDark } from "../context/DarkMoodContext";
+import { useDark } from "../context/DarkModeContext";
 
 export default function DarkModeToggle() {
   const { isDark, toggleDark } = useDark();
