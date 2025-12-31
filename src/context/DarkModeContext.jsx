@@ -29,7 +29,7 @@ export default function DarkModeProvider({ children }) {
   );
 }
 
-export const useDark = () => {
+export const useDarkMode = () => {
   const context = useContext(DarkModeContext);
   if (!context) throw new Error("the context is not available here");
   return context;
