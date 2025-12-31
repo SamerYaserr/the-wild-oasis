@@ -4,10 +4,10 @@ import ButtonIcon from "./ButtonIcon";
 import { useDarkMode } from "../context/DarkModeContext";
 
 export default function DarkModeToggle() {
-  const { isDark, toggleDark } = useDarkMode();
+  const { isDarkMode, toggleDark } = useDarkMode();
   return (
     <ButtonIcon onClick={toggleDark}>
-      {!isDark ? <IoMoonOutline /> : <IoSunnyOutline />}
+      {!isDarkMode ? <IoMoonOutline /> : <IoSunnyOutline />}
     </ButtonIcon>
   );
 }

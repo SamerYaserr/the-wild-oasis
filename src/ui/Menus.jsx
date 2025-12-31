@@ -98,7 +98,10 @@ function Toggle({ id }) {
   }
 
   return (
-    <StyledToggle onClick={handleClick}>
+    <StyledToggle
+      onClick={handleClick}
+      onMouseDown={(e) => e.stopPropagation()}
+    >
       <HiEllipsisVertical />
     </StyledToggle>
   );
