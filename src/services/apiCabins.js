@@ -1,4 +1,6 @@
-import supabase, { supabaseUrl } from "./supabase";
+import supabase from "./supabase";
+
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 
 export async function getCabins() {
   let { data: cabins, error } = await supabase.from("cabins").select("*");
