@@ -12,12 +12,12 @@ export default function useRecentStays() {
     : Number(searchParams.get("last"));
   const queryDate = subDays(new Date(), numDays).toISOString();
 
-  const { isLoading, data: stays } = useQuery({
+  const { isPending, data: stays } = useQuery({
     queryFn: () => getStaysAfterDate(queryDate),
     queryKey: ["stays", `last-${numDays}`],
   });
 
   const confirmedStays = stays?.filter((stay) => stay.status !== "unconfirmed");
 
-  return { isLoading, stays, confirmedStays };
+  return { isPending, stays, confirmedStays };
 }
